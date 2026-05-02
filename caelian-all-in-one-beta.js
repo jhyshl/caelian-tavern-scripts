@@ -48791,7 +48791,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0d0f14;}
       const xpPct = p.xp_to_next > 0 ? ((p.xp / p.xp_to_next) * 100).toFixed(0) : 0;
       const slots = [['weapon','⚔️','武器'],['armor','🛡️','防具'],['accessory','💍','饰品']];
       const activeRelics = p.relics || [];
-      const ownedRelics = p.relic_inventory || [];
+      const ownedRelics = Array.from(new Set([...(p.relic_inventory || []), ...(p.relics || [])]));
       const eqInv = p.equipment_inventory || [];
 
       normalizeStatAllocations(p);
@@ -48921,7 +48921,7 @@ const pt = getProfessionTalent(p.class_sub);
       doc.querySelectorAll('[data-equip-clear]').forEach(btn=>btn.addEventListener('click', async()=>{ const slot=btn.getAttribute('data-equip-clear'); if(['weapon','armor','accessory'].includes(slot)) p.equipment[slot]=null; writeSave(save); await syncToMvu(save); renderChar(); renderBattle(); }));
       doc.querySelectorAll('[data-relic-edit-toggle]').forEach(btn=>btn.addEventListener('click',()=>{ relicEditMode = btn.getAttribute('data-relic-edit-toggle') === 'on'; renderChar(); }));
       doc.querySelectorAll('[data-relic-equip]').forEach(btn=>btn.addEventListener('click', async()=>{ const rid=btn.getAttribute('data-relic-equip'); normalizePlayerProgression(); if(BATTLE_RELIC_DB[rid] && !p.relics.includes(rid) && p.relics.length < 5) p.relics.push(rid); writeSave(save); await syncToMvu(save); renderChar(); renderBattle(); }));
-      doc.querySelectorAll('[data-relic-unequip]').forEach(btn=>btn.addEventListener('click', async()=>{ const rid=btn.getAttribute('data-relic-unequip'); p.relics = (p.relics||[]).filter(x=>x!==rid); writeSave(save); await syncToMvu(save); renderChar(); renderBattle(); }));
+      doc.querySelectorAll('[data-relic-unequip]').forEach(btn=>btn.addEventListener('click', async()=>{ const rid=btn.getAttribute('data-relic-unequip'); if(BATTLE_RELIC_DB[rid] && !(p.relic_inventory||[]).includes(rid)) (p.relic_inventory||(p.relic_inventory=[])).push(rid); p.relics = (p.relics||[]).filter(x=>x!==rid); writeSave(save); await syncToMvu(save); renderChar(); renderBattle(); }));
       doc.querySelectorAll('[data-career-toggle]').forEach(btn=>btn.addEventListener('click',()=>{ careerChangeMode = false; showCareerModal(); }));
       doc.querySelectorAll('[data-reclass]').forEach(btn=>btn.addEventListener('click', async()=>{
         const sub = btn.getAttribute('data-reclass');
@@ -64434,7 +64434,7 @@ completion_condition: 完成首次游玩新手引导。
       const eventOnFn = topWin.eventOn || window.eventOn;
       const getBtnEvent = topWin.getButtonEvent || window.getButtonEvent;
       if (typeof appendBtns === 'function' && typeof eventOnFn === 'function' && typeof getBtnEvent === 'function') {
-        appendBtns([{ name: BTN_NAME, visible: true }]);
+        appendBtns([{ name: BTN_NAME, visible: false }]);
         eventOnFn(getBtnEvent(BTN_NAME), () => applyRegionSwitch('button', true));
       }
     } catch(e) {}
@@ -65262,7 +65262,7 @@ completion_condition: 完成首次游玩新手引导。
     } catch(e) { console.warn(`[${SCRIPT_ID}] 同步主线世界书失败`, e); return false; } finally { isApplying = false; }
   }
   function registerButton() {
-    try { const appendBtns = topWin.appendInexistentScriptButtons || window.appendInexistentScriptButtons; const eventOnFn = topWin.eventOn || window.eventOn; const getBtnEvent = topWin.getButtonEvent || window.getButtonEvent; if (typeof appendBtns==='function' && typeof eventOnFn==='function' && typeof getBtnEvent==='function') { appendBtns([{ name: BTN_NAME, visible: true }]); eventOnFn(getBtnEvent(BTN_NAME), () => physicalToggle('button', true)); } } catch(e) {}
+    try { const appendBtns = topWin.appendInexistentScriptButtons || window.appendInexistentScriptButtons; const eventOnFn = topWin.eventOn || window.eventOn; const getBtnEvent = topWin.getButtonEvent || window.getButtonEvent; if (typeof appendBtns==='function' && typeof eventOnFn==='function' && typeof getBtnEvent==='function') { appendBtns([{ name: BTN_NAME, visible: false }]); eventOnFn(getBtnEvent(BTN_NAME), () => physicalToggle('button', true)); } } catch(e) {}
   }
   function bindEvents() {
     const eventOnFn = topWin.eventOn || window.eventOn; const ev = topWin.tavern_events || window.tavern_events;
@@ -65544,7 +65544,7 @@ completion_condition: 完成首次游玩新手引导。
     } catch(e) { console.warn(`[${SCRIPT_ID}] 同步支线世界书失败`, e); return false; } finally { isApplying = false; }
   }
   function registerButton() {
-    try { const appendBtns = topWin.appendInexistentScriptButtons || window.appendInexistentScriptButtons; const eventOnFn = topWin.eventOn || window.eventOn; const getBtnEvent = topWin.getButtonEvent || window.getButtonEvent; if (typeof appendBtns==='function' && typeof eventOnFn==='function' && typeof getBtnEvent==='function') { appendBtns([{ name: BTN_NAME, visible: true }]); eventOnFn(getBtnEvent(BTN_NAME), () => physicalToggle('button', true)); } } catch(e) {}
+    try { const appendBtns = topWin.appendInexistentScriptButtons || window.appendInexistentScriptButtons; const eventOnFn = topWin.eventOn || window.eventOn; const getBtnEvent = topWin.getButtonEvent || window.getButtonEvent; if (typeof appendBtns==='function' && typeof eventOnFn==='function' && typeof getBtnEvent==='function') { appendBtns([{ name: BTN_NAME, visible: false }]); eventOnFn(getBtnEvent(BTN_NAME), () => physicalToggle('button', true)); } } catch(e) {}
   }
   function bindEvents() {
     const eventOnFn = topWin.eventOn || window.eventOn; const ev = topWin.tavern_events || window.tavern_events;
