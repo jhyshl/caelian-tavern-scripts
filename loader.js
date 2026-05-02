@@ -1,6 +1,6 @@
 // 凯利安酒馆脚本远程加载器
-// 玩家酒馆助手里只需要保留：
-// import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader.js';
+// 玩家酒馆助手里只需要保留（测试服）：
+// import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader-beta.js';
 
 const CAELIAN_REMOTE_REPO = 'jhyshl/caelian-tavern-scripts';
 const CAELIAN_REMOTE_BRANCH = 'main';
