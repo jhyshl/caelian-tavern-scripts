@@ -39,3 +39,47 @@ import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loa
 旧的内置大脚本不要和远程 loader 同时启用，否则会重复注册按钮、重复监听事件，可能造成 UI 异常或数据重复写入。
 
 第一次切换到远程版时，玩家仍然需要更新一次角色卡或导入一个小补丁，把原来的内置大脚本换成远程 loader。之后就可以通过 GitHub 维护脚本。
+
+
+## 发布流程（强制）
+
+以下流程用于保证稳定版可回滚、测试版可快速迭代：
+
+1. **不要直接覆盖正式版文件**
+   - 未收到“发布正式版”指令前，不直接修改 stable 当前正式入口文件。
+
+2. **开发期间只改 beta 文件**
+   - 日常开发/修复统一改 `caelian-beta.js`，或 `manifest.json` 中 `channels.beta.entry` 指向的文件。
+
+3. **manifest.json 必须保留 stable / beta 双通道**
+   - `stable` 给普通玩家。
+   - `beta` 给测试玩家。
+
+4. **一个开发周期内不频繁创建 beta 新文件**
+   - 正式发布前可持续使用同一个 beta 文件（例如 `caelian-beta.js`）。
+   - 不要为每个小改动创建 `beta.1`、`beta.2` 等子版本，除非明确要求。
+
+5. **只在正式发布时创建新的正式版文件**
+   - 收到“发布正式版”后，再创建新的正式文件（例如 `caelian-v6.126.js`）。
+   - 然后再更新 `manifest.json` 的 `channels.stable.entry` 指向新文件。
+
+6. **发布正式版时保留旧正式版**
+   - 不删除旧正式文件（例如 `caelian-v6.125.js`），以便回滚。
+
+7. **更新顺序固定**
+   - 先改 beta 文件。
+   - 再测试。
+   - 再复制/整理成新的正式版文件。
+   - 最后修改 `manifest.json` 的 stable 指向。
+
+8. **任何修改都不能清空玩家存档**
+   - 不重置 `localStorage`。
+   - 不重置变量管理器里的玩家数据。
+   - 新增字段必须写迁移逻辑，为旧存档补字段，不覆盖旧数据。
+
+9. **每次提交前检查**
+   - JS 语法无报错。
+   - `manifest.json` 为合法 JSON。
+   - stable 仍指向可用文件。
+   - beta 可指向测试文件。
+   - 未测试代码不得发布到 stable。
