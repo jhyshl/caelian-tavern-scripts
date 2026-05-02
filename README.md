@@ -4,16 +4,16 @@
 
 ## 玩家端入口
 
-在酒馆助手脚本里保留这一句：
-
-```js
-import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader.js';
-```
-
-测试版入口：
+在酒馆助手脚本里保留这一句（测试服）：
 
 ```js
 import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader-beta.js';
+```
+
+稳定版入口（如需切回正式服）：
+
+```js
+import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader-stable.js';
 ```
 
 ## 文件说明

@@ -1,9 +1,9 @@
-把玩家卡里的酒馆助手脚本替换为下面这一句：
-
-import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader.js';
-
-测试版入口：
+把玩家卡里的酒馆助手脚本替换为下面这一句（测试服）：
 
 import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader-beta.js';
+
+稳定版入口（如需切回正式服）：
+
+import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loader-stable.js';
 
 注意：旧的内置大脚本不要和远程 loader 同时启用，否则会重复加载。

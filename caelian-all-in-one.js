@@ -45657,7 +45657,9 @@ $(() => {
       global.special_collectibles = Object.assign({}, global.special_collectibles, localSpecial);
       const specialRelics = specialRelicIdSetFromPlayer(p);
       global.relic_inventory = uniqueListAdv([...(global.relic_inventory || []), ...Array.from(specialRelics)]);
-      global.relics = uniqueListAdv([...(global.relics || []), ...(p.relics || []).filter(id => specialRelics.has(id))]).slice(0, 5);
+      // 特殊藏品“是否携带”应与当前存档保持一致。
+      // 不能用并集累加，否则玩家手动“卸下”后会在下次读取全局槽时被自动补回。
+      global.relics = uniqueListAdv((p.relics || []).filter(id => specialRelics.has(id))).slice(0, 5);
       global.updatedAt = Date.now();
       topWin.localStorage.setItem(GLOBAL_SPECIAL_COLLECTIBLES_KEY, JSON.stringify(global));
     } catch(e) { console.warn('[adv-panel] writeGlobalSpecialProgressFromSave failed', e); }
@@ -51452,7 +51454,8 @@ const pt = getProfessionTalent(p.class_sub);
       const p = save.player || (save.player = {});
       if(!Array.isArray(p.deck)) p.deck = [];
       if(!Array.isArray(p.card_collection)) p.card_collection = p.deck.slice();
-      if(!Array.isArray(p.relics)) p.relics = [];
+      const hadRelicsArray = Array.isArray(p.relics);
+      if(!hadRelicsArray) p.relics = [];
       if(!Array.isArray(p.relic_inventory)) p.relic_inventory = [];
       if(!Array.isArray(p.equipment_inventory)) p.equipment_inventory = [];
       if(!p.equipment) p.equipment = {weapon:null,armor:null,accessory:null};
@@ -51470,7 +51473,9 @@ const pt = getProfessionTalent(p.class_sub);
       });
       p.relic_inventory = relicOwned;
       p.relics = [...new Set(p.relics || [])].filter(rid => p.relic_inventory.includes(rid)).slice(0, 5);
-      if(p.relics.length === 0 && p.relic_inventory.length > 0) p.relics = p.relic_inventory.slice(0, 5);
+      // 仅在“旧档没有 relics 字段”时做一次迁移性默认携带。
+      // 若玩家手动把藏品全部卸下（relics=[]），不能再被自动补回。
+      if(!hadRelicsArray && p.relics.length === 0 && p.relic_inventory.length > 0) p.relics = p.relic_inventory.slice(0, 5);
 
       // 装备：允许同名装备重复存在。背包内存储装备实例ID；升星改为背包合成台手动操作。
       const eqOwned = [];
