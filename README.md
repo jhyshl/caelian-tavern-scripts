@@ -20,16 +20,20 @@ import 'https://testingcf.jsdelivr.net/gh/jhyshl/caelian-tavern-scripts@main/loa
 
 - `loader.js`：远程加载器。读取 `manifest.json` 后加载正式脚本。
 - `manifest.json`：版本清单。以后更新版本号和入口文件。
-- `caelian-all-in-one.js`：当前整合后的主脚本包。
+- `caelian-all-in-one-stable.js`：稳定版主脚本包（stable 通道）。
+- `caelian-all-in-one-beta.js`：测试版主脚本包（beta 通道）。
+- `caelian-all-in-one.js`：历史兼容主包（保留，不再作为通道入口）。
 - `loader-stable.js`：稳定版入口。
 - `loader-beta.js`：测试版入口。
 - `IMPORT_THIS_IN_TAVERN_HELPER.txt`：给玩家复制用的一句话入口。
 
 ## 更新方法
 
-1. 替换 `caelian-all-in-one.js`。
+1. 只改你要发布的通道文件：
+   - 稳定服：`caelian-all-in-one-stable.js`
+   - 测试服：`caelian-all-in-one-beta.js`
 2. 打开 `manifest.json`。
-3. 把 `channels.stable.version` 改成新版本，例如 `v6.126`。
+3. 仅修改对应通道的 `version`（例如 `channels.beta.version`），并保持 `entry` 指向对应文件。
 4. 提交更改。
 
 版本号一定要改。加载器会用版本号生成脚本链接，避免玩家继续读到旧缓存。

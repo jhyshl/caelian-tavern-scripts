@@ -6,14 +6,14 @@
   "defaultChannel": "stable",
   "channels": {
     "stable": {
-      "version": "v6.125",
-      "description": "战斗升级延迟结算修正版",
-      "entry": "caelian-all-in-one.js"
+      "version": "v6.125-stable.1",
+      "description": "稳定通道（固定 stable 入口）",
+      "entry": "caelian-all-in-one-stable.js"
     },
     "beta": {
-      "version": "v6.125",
-      "description": "当前 beta 与 stable 相同",
-      "entry": "caelian-all-in-one.js"
+      "version": "v6.126-beta.1",
+      "description": "测试通道（独立 beta 入口）",
+      "entry": "caelian-all-in-one-beta.js"
     }
   }
 }
