@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "name": "凯利安酒馆脚本",
+  "repo": "jhyshl/caelian-tavern-scripts",
+  "branch": "main",
+  "defaultChannel": "stable",
+  "channels": {
+    "stable": {
+      "version": "v6.125",
+      "description": "战斗升级延迟结算修正版",
+      "entry": "caelian-all-in-one.js"
+    },
+    "beta": {
+      "version": "v6.125",
+      "description": "当前 beta 与 stable 相同",
+      "entry": "caelian-all-in-one.js"
+    }
+  }
+}
