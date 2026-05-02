@@ -39,7 +39,8 @@ async function caelianLoadRemote() {
     }
 
     const entryPath = String(channel.entry).replace(/^\/+/, '');
-    const entryUrl = `${CAELIAN_REMOTE_CDN_BASE}/${entryPath}?v=${encodeURIComponent(version)}`;
+    const forceReload = channelName === 'beta' || channel?.forceReload === true;
+    const entryUrl = `${CAELIAN_REMOTE_CDN_BASE}/${entryPath}?v=${encodeURIComponent(version)}${forceReload ? `&ts=${Date.now()}` : ''}`;
     console.log(`[CaelianRemote] 加载 ${channelName}/${version}:`, entryUrl);
     await import(entryUrl);
 

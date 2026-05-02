@@ -11,7 +11,7 @@
       "entry": "caelian-all-in-one-stable.js"
     },
     "beta": {
-      "version": "v6.126-beta.1",
+      "version": "v6.126-beta.3",
       "description": "测试通道（独立 beta 入口）",
       "entry": "caelian-all-in-one-beta.js"
     }
